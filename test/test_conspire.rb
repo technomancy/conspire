@@ -32,23 +32,25 @@ class TestConspire < Test::Unit::TestCase
 
   def teardown
     @remote_thread.kill
+    `killall git-daemon` # workaround until gitjour handles this correctly
     Conspire.reset!
     FileUtils.rm_rf(REMOTE_SPACE)
     FileUtils.rm_rf(LOCAL_SPACE)
   end
 
   def test_discover
-    assert_equal ['localhost:7458'], Conspire.conspirators.map{ |s| s.to_s }
+    assert_equal [7458], Conspire.conspirators.map{ |c| c.port }
   end
 
   def test_sync
+    assert File.exist?("#{LOCAL_SPACE}/.git")
     Conspire.sync_all
-    assert_equal ['file'], Dir.glob("#{LOCAL_SPACE}/*")
+    assert_equal ["#{LOCAL_SPACE}/file"], Dir.glob("#{LOCAL_SPACE}/*")
   end
 
-  def test_commit
-  end
+#   def test_commit
+#   end
 
-  def test_rebase
-  end
+#   def test_rebase
+#   end
 end

@@ -1,10 +1,9 @@
 module Conspire
   class Conspirator
-    attr_accessor :last_synced
+    attr_accessor :last_synced, :host, :port, :name
 
-    def initialize(host, port)
-      @host, @port = remote.split(':')
-      @port ||= DEFAULT_OPTIONS[:port]
+    def initialize(host, port, name)
+      @host, @port, @name = host, port || DEFAULT_OPTIONS[:port], name
     end
 
     def to_s
@@ -12,11 +11,12 @@ module Conspire
     end
 
     def sync(path)
-      `cd #{path} && git pull #{url}`
+      # TODO: suppress output
+      `cd #{path} && git pull --rebase #{url}`
       @last_synced = Time.now
     end
 
-    def url; "git://#{@host}:#{@port}/conspire" end
+    def url; "git://#{@host}.local:#{@port}/" end
 
     def eql?(other)
       self.to_s == other.to_s

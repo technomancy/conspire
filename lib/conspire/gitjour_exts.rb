@@ -1,7 +1,8 @@
 module Gitjour
   class Application
     class << self
-      public :serve, :service_list
+      public :serve, :discover
+      def puts(*args); end unless ENV['DEBUG']
     end
   end
 end

@@ -13,6 +13,7 @@ module Conspire
   VERSION = '0.0.1'
   DEFAULT_OPTIONS = { :port => 7456, :path => Dir.pwd }
   SERVICE_NAME = 'conspire'
+  DISCOVER_TIME = 2
 
   @conspirators = Set.new
 
@@ -20,29 +21,30 @@ module Conspire
 
   # Begin a conspiracy session
   def start(options = {})
-    options = DEFAULT_OPTIONS.merge(options)
+    @options = DEFAULT_OPTIONS.merge(options)
 
-    FileUtils.mkdir_p(options[:path]) unless File.exist? options[:path]
-    `cd #{options[:path]}; git init` unless File.exist? options[:path] + '/.git'
-    @repo = Grit::Repo.new(options[:path])
+    FileUtils.mkdir_p(@options[:path]) unless File.exist? @options[:path]
+    `cd #{@options[:path]}; git init` unless File.exist? @options[:path] + '/.git'
+    @repo = Grit::Repo.new(@options[:path])
 
     @thread = Thread.new do
-      Gitjour::Application.serve(options[:path], SERVICE_NAME, options[:port])
+      Gitjour::Application.serve(@options[:path], SERVICE_NAME, @options[:port])
     end
     at_exit { @thread && @thread.join }
   end
 
   # This should be called periodically
-  def discover
-    Gitjour::Application.service_list('_git._tcp').each do |service|
-      next unless service.name == SERVICE_NAME
+  def discover(wait = DISCOVER_TIME)
+    Gitjour::Application.discover('_git._tcp', wait) do |service|
+      next if service.name !~ /-#{SERVICE_NAME}/
+      next if service.port.to_i == @options[:port].to_i # TODO: and local
       # No-op if we've got it already, since @conspirators is a Set
-      @conspirators << Conspirator.new(service.host, service.port)
+      @conspirators << Conspirator.new(service.host, service.port, service.name)
     end
   end
 
   def sync_all
-    @conspirators.map{ |s| s.sync(@repo.path) }
+    @conspirators.map{ |s| s.sync(File.dirname(@repo.path)) }
   end
 
   def conspirators; @conspirators end
