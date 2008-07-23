@@ -47,10 +47,4 @@ class TestConspire < Test::Unit::TestCase
     Conspire.sync_all
     assert_equal ["#{LOCAL_SPACE}/file"], Dir.glob("#{LOCAL_SPACE}/*")
   end
-
-#   def test_commit
-#   end
-
-#   def test_rebase
-#   end
 end

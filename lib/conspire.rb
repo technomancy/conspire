@@ -44,6 +44,7 @@ module Conspire
   end
 
   def sync_all
+    # TODO: drop conspirators if they shut down their repo
     @conspirators.map{ |s| s.sync(File.dirname(@repo.path)) }
   end
 

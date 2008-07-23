@@ -2,5 +2,18 @@
 
 require File.dirname(__FILE__) + '/../lib/conspire'
 
-# For now...
-Conspire.send *ARGV
+# TODO: real option parsing
+Conspire.start :port => ARGV.first || Conspire::DEFAULT_OPTIONS[:port]
+
+Thread.new do
+  loop do
+    Conspire.discover
+    p Conspire.conspirators if ENV['DEBUG']
+    sleep 10
+  end
+end
+
+loop do
+  Conspire.sync_all
+  sleep 1
+end
