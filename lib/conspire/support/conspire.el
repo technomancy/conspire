@@ -36,24 +36,23 @@
 (defvar conspire-interval 0.33
   "Number of seconds to wait before syncing with conspire.")
 
+(defvar conspire-timer nil
+  "A timer to activate conspire synchronizing.")
+
 (defun conspire-mode ()
-  "Toggle conspire-mode for real-time collaborative editing."
+  "Activate conspire-mode for real-time collaborative editing."
   (interactive)
-  (if (and (boundp conspire-mode) conspire-mode)
-      (progn
-        (set (make-local-variable 'conspire-mode) t)
-        (set (make-local-variable 'conspire-timer)
-             (run-with-idle-timer conspire-interval
-                                  :repeat 'conspire-sync-buffer)))
-    (setq conspire-mode nil)
-    (cancel-timer conspire-timer)))
+  (set (make-local-variable 'conspire-timer)
+       (run-with-idle-timer conspire-interval
+                            :repeat 'conspire-sync-buffer)))
 
 (defun conspire-sync-buffer ()
   "Synchronize buffer with Conspire repository."
   (when (buffer-modified-p)
     (save-buffer)
-    (shell-command "conspire commit")
-    (shell-command "conspire rebase")
-    (revert-buffer nil t)))
+    (shell-command (format "git add %s && git commit -m \"conspire\""
+                           buffer-file-name)))
+  (revert-buffer nil t))b
+
 
 ;;; conspire.el ends here
