@@ -1,10 +1,9 @@
 require 'rubygems'
 begin
-  gem 'miniunit'
+  gem 'miniunit' # just fer kicks...
 rescue LoadError; end
 
 require 'test/unit'
-require 'fileutils'
 require File.dirname(__FILE__) + '/../lib/conspire'
 
 REMOTE_SPACE = File.dirname(__FILE__) + '/remote-space'
@@ -23,31 +22,28 @@ class TestConspire < Test::Unit::TestCase
     File.open(REMOTE_SPACE + '/file', 'w') { |f| f.puts "hello world." }
     `cd #{REMOTE_SPACE}; git init; git add file; git commit -m "init"`
 
-    FileUtils.mkdir_p(LOCAL_SPACE)
-    `cd #{LOCAL_SPACE}; git init`
-
     @remote_thread = Thread.new do
       Gitjour::Application.serve(REMOTE_SPACE, Conspire::SERVICE_NAME, 7458)
     end
 
-    Conspire.start(:port => 7457,
-                   :path => "#{File.dirname(__FILE__)}/local-space")
+    Conspire.start(:port => 7457, :path => LOCAL_SPACE)
     Conspire.discover
   end
 
   def teardown
-    FileUtils.rm_rf(REMOTE_SPACE)
-    FileUtils.rm_rf(LOCAL_SPACE)
     @remote_thread.kill
     Conspire.reset!
+    FileUtils.rm_rf(REMOTE_SPACE)
+    FileUtils.rm_rf(LOCAL_SPACE)
   end
 
-  def test_start
+  def test_discover
     assert_equal ['localhost:7458'], Conspire.conspirators.map{ |s| s.to_s }
   end
 
-  def test_subscribe
-    assert_equal ['file'], Conspire.files.map{ |f| f.name }
+  def test_sync
+    Conspire.sync_all
+    assert_equal ['file'], Dir.glob("#{LOCAL_SPACE}/*")
   end
 
   def test_commit

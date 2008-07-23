@@ -1,5 +1,7 @@
 $LOAD_PATH << File.dirname(__FILE__)
 require 'set'
+require 'fileutils'
+
 require 'rubygems'
 require 'gitjour'
 require 'mojombo-grit'
@@ -16,15 +18,21 @@ module Conspire
 
   module_function
 
+  # Begin a conspiracy session
   def start(options = {})
     options = DEFAULT_OPTIONS.merge(options)
+
+    FileUtils.mkdir_p(options[:path]) unless File.exist? options[:path]
+    `cd #{options[:path]}; git init` unless File.exist? options[:path] + '/.git'
     @repo = Grit::Repo.new(options[:path])
+
     @thread = Thread.new do
       Gitjour::Application.serve(options[:path], SERVICE_NAME, options[:port])
     end
-    at_exit { @thread.join }
+    at_exit { @thread && @thread.join }
   end
 
+  # This should be called periodically
   def discover
     Gitjour::Application.service_list('_git._tcp').each do |service|
       next unless service.name == SERVICE_NAME
