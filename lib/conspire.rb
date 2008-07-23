@@ -34,7 +34,7 @@ module Conspire
 
   # This should be called periodically
   def discover(wait = DISCOVER_INTERVAL)
-    Gitjour::Application.discover('_git._tcp', wait) do |service|
+    Gitjour::Application.discover(wait) do |service|
       next if service.name !~ Regexp.new(SERVICE_NAME)
       next if service.port.to_i == @options[:port].to_i # TODO: and local
       # No-op if we've got it already, since @conspirators is a Set

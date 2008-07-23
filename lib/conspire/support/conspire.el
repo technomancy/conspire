@@ -58,7 +58,7 @@
     (save-buffer)
     (shell-command (format "git add %s && git commit -m \"conspire\""
                            buffer-file-name)))
-  (revert-buffer nil t))b
+  (revert-buffer nil t))
 
 
 ;;; conspire.el ends here

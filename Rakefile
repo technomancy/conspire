@@ -8,7 +8,8 @@ Hoe.new('conspire', Conspire::VERSION) do |p|
   p.developer('Phil Hagelberg', 'technomancy@gmail.com')
 
   # Get these from github:
-  p.extra_deps << 'nogoth-gitjour'
+  # TODO: currently have to build manually; no gem built
+  p.extra_deps << 'chad-gitjour'
 end
 
 # vim: syntax=Ruby
