@@ -1,0 +1,11 @@
+COPYING
+History.txt
+Manifest.txt
+README.txt
+Rakefile
+bin/conspire
+lib/conspire.rb
+lib/conspire/conspirator.rb
+lib/conspire/gitjour_exts.rb
+lib/conspire/support/conspire.el
+test/test_conspire.rb
