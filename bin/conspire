@@ -3,17 +3,12 @@
 require File.dirname(__FILE__) + '/../lib/conspire'
 
 # TODO: real option parsing
+# Should be able to set:
+# * port
+# * path
+# * sync interval
+# * 
 Conspire.start :port => ARGV.first || Conspire::DEFAULT_OPTIONS[:port]
 
-Thread.new do
-  loop do
-    Conspire.discover
-    p Conspire.conspirators if ENV['DEBUG']
-    sleep 10
-  end
-end
-
-loop do
-  Conspire.sync_all
-  sleep 1
-end
+Thread.new { Conspire.discover_loop }
+Conspire.sync_loop

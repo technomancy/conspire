@@ -31,6 +31,12 @@
 
 ;; Let's use git for real-time collaborative editing!
 
+;;; TODO:
+
+;; In its current state, it's very dangerous to start a conspire
+;; session and then switch buffers, since the timer is not yet buffer
+;; local. Watch out!
+
 ;;; Code:
 
 (defvar conspire-interval 0.33

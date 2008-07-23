@@ -11,8 +11,19 @@ supported.
 
 == Installation
 
+* sudo gem install net-mdns
 * sudo gem install technomancy-conspire --source=http://gems.github.com
 
 Once a proper release has happened:
 
 * sudo gem install conspire
+
+== Editor Support
+
+Editors must support:
+
+* Saving on an interval
+* Committing files to the repo
+* Refreshing internal copies
+
+Edits should not be allowed in between these steps.
