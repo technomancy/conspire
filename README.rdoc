@@ -1,0 +1,18 @@
+= conspire
+  by Phil Hagelberg (C) 2008
+  http://conspire.rubyforge.org
+
+Conspire is a real-time collaborative editing platform using Git as a
+transport layer.
+
+You don't actually use Conspire directly; you would invoke it through
+an editor interface. See lib/conspire/support to see which editors are
+supported.
+
+== Installation
+
+* sudo gem install technomancy-conspire --source=http://gems.github.com
+
+Once a proper release has happened:
+
+* sudo gem install conspire
