@@ -27,7 +27,6 @@ class TestConspire < Test::Unit::TestCase
     end
 
     Conspire.start(:port => 7457, :path => LOCAL_SPACE)
-    Conspire.discover
   end
 
   def teardown
@@ -39,11 +38,12 @@ class TestConspire < Test::Unit::TestCase
   end
 
   def test_discover
+    Conspire.discover
     assert_equal [7458], Conspire.conspirators.map{ |c| c.port }
   end
 
   def test_sync
-    assert File.exist?("#{LOCAL_SPACE}/.git")
+    Conspire.conspirators << Conspire::Conspirator.new('dynabook', '7458')
     Conspire.sync_all
     assert_equal ["#{LOCAL_SPACE}/file"], Dir.glob("#{LOCAL_SPACE}/*")
   end

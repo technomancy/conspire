@@ -2,7 +2,7 @@ module Conspire
   class Conspirator
     attr_accessor :last_synced, :host, :port, :name
 
-    def initialize(host, port, name)
+    def initialize(host, port, name = SERVICE_NAME)
       @host, @port, @name = host, port || DEFAULT_OPTIONS[:port], name
     end
 

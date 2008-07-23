@@ -24,7 +24,7 @@ module Conspire
     @options = DEFAULT_OPTIONS.merge(options)
 
     FileUtils.mkdir_p(@options[:path]) unless File.exist? @options[:path]
-    `cd #{@options[:path]}; git init` unless File.exist? @options[:path] + '/.git'
+    `cd #{@options[:path]}; git init` if ! File.exist? @options[:path] + '/.git'
     @repo = Grit::Repo.new(@options[:path])
 
     @thread = Thread.new do
@@ -36,7 +36,7 @@ module Conspire
   # This should be called periodically
   def discover(wait = DISCOVER_TIME)
     Gitjour::Application.discover('_git._tcp', wait) do |service|
-      next if service.name !~ /-#{SERVICE_NAME}/
+      next if service.name !~ Regexp.new(SERVICE_NAME)
       next if service.port.to_i == @options[:port].to_i # TODO: and local
       # No-op if we've got it already, since @conspirators is a Set
       @conspirators << Conspirator.new(service.host, service.port, service.name)

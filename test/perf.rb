@@ -1,5 +1,8 @@
 #!/usr/bin/env ruby
 
+# Just a total ad-hoc test to make sure this whole concept is even feasible.
+# On my 1.6 Core 2 Duo laptop I get 38 commits in 10s
+
 require 'fileutils'
 require 'timeout'
 
