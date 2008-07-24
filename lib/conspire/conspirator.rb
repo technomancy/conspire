@@ -12,7 +12,7 @@ module Conspire
                   puts "cd #{path} && git pull --rebase #{url}"
                   system "cd #{path} && git pull --rebase #{url}"
                 else
-                  system "cd #{path} && git pull --rebase #{url} > /dev/null"
+                  system "cd #{path} && git pull --rebase #{url} &> /dev/null"
                 end
 
       raise "could not rebase from #{url}" if ! success
