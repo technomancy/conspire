@@ -7,18 +7,9 @@ transport layer.
 
 == Installation
 
-You'll need git 1.5.5 or higher.
+You'll need git 1.5.5 or higher. (sudo gem install roastbeef; roastbeef install git)
 
-TODO: instructions for avahi-compatible dnssd from source.
-TODO: make latest gitjour available as a gem
-
-* sudo gem install dnssd newgem
-* git clone git://github.com/chad/gitjour.git; cd gitjour; rake install_gem
 * sudo gem install technomancy-conspire --source=http://gems.github.com
-
-Once a proper release has happened:
-
-* sudo gem install conspire
 
 == Usage
 
@@ -31,14 +22,16 @@ conspire from there on the files with which you wish to collaborate.
 See lib/conspire/support to see which editors are supported. In Emacs,
 this involves visiting the file you want to edit and pressing M-x
 conspire-mode, though this is still very rough and should be done in
-its own instance.
+its own Emacs instance.
 
 Repository history is cleared in between conspiracy sessions.
 
+== Troubleshooting
+
 When using Avahi for your ZeroConf implementation, you will not be
 able to do anything unless you have an active network connection. So
-disconnected conspirancy sessions on the same machine are not possible
-without bringing up an ad-hoc network.
+disconnected conspirancy sessions are not possible without bringing up
+an ad-hoc network to trick Avahi into activating.
 
 == Editor Support
 
@@ -50,4 +43,8 @@ Editors must support:
 
 Edits should not be allowed in between these steps.
 
-Editors should be able to support launching the +conspire+ executable.
+Editors may be able to support launching the +conspire+ executable.
+
+That's about all there is to it. If your favourite editor is not
+supported, please fork and add support for it; it's really not a
+difficult task.
