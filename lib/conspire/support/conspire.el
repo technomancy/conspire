@@ -31,13 +31,19 @@
 
 ;; Let's use git for real-time collaborative editing!
 
+;;; Installation:
+
+;; Copy to your .emacs.d directory and add this to your init file:
+;;
+;;   (autoload 'conspire-mode "conspire" "Collaborative editing" t)
+
 ;;; TODO:
 
 ;; In its current state, it's very dangerous to start a conspire
 ;; session and then switch buffers, since the timer is not yet buffer
 ;; local. Watch out!
 
-;; Launch conspire executable.
+;; Automatically launch conspire executable.
 
 ;;; Code:
 
@@ -47,6 +53,7 @@
 (defvar conspire-timer nil
   "A timer to activate conspire synchronizing.")
 
+;;;###autoload
 (defun conspire-mode ()
   "Activate conspire-mode for real-time collaborative editing."
   (interactive)

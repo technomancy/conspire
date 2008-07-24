@@ -7,9 +7,16 @@ transport layer.
 
 == Installation
 
-You'll need git 1.5.5 or higher. (sudo gem install roastbeef; roastbeef install git)
+You'll need git 1.5.5 or higher. Ubuntu 8.04 has an older git, but
+MacPorts' version is OK. You'll also need the package
+libavahi-compat-libdnssd-dev on Debian-based systems.
 
-* sudo gem install technomancy-conspire --source=http://gems.github.com
+  $ sudo gem install roastbeef; roastbeef install git
+  $ sudo apt-get install libavahi-compat-libdnssd-dev
+
+Once prerequisites are met:
+
+  $ sudo gem install technomancy-conspire --source=http://gems.github.com
 
 == Usage
 
@@ -20,9 +27,9 @@ that directory. From there you should open up your editor and invoke
 conspire from there on the files with which you wish to collaborate.
 
 See lib/conspire/support to see which editors are supported. In Emacs,
-this involves visiting the file you want to edit and pressing M-x
-conspire-mode, though this is still very rough and should be done in
-its own Emacs instance.
+install conspire.el and then visit the file you want to edit and
+pressing M-x conspire-mode, though this is still very rough and should
+be done in its own Emacs instance.
 
 Repository history is cleared in between conspiracy sessions.
 
