@@ -30,6 +30,8 @@ class TestConspire < Test::Unit::TestCase
     end
 
     Conspire.start(LOCAL_SPACE, OpenStruct.new(:port => 7457))
+    File.open(LOCAL_SPACE + '/file2', 'w') { |f| f.puts "hello world!" }
+    `cd #{LOCAL_SPACE}; git add file2; git commit -m "conspire"`
   end
 
   def teardown
@@ -42,16 +44,21 @@ class TestConspire < Test::Unit::TestCase
 
   def test_start
     assert File.exist?(LOCAL_SPACE + '/.git')
+    assert(system("cd #{LOCAL_SPACE} && git pull --rebase git://localhost:7458/"),
+           "Could not rebase from remote.")
   end
 
   def test_discover
-    Conspire.discover
+    Conspire.discover 1
     assert_equal [7458], Conspire.conspirators.map{ |c| c.port }
   end
 
   def test_sync
     Conspire.conspirators << Conspire::Conspirator.new('localhost.', '7458')
     Conspire.sync_all
+
+    assert Conspire.conspirators.last, "Dropped remote conspirator"
+    assert_equal 'localhost', Conspire.conspirators.last.host
     assert_equal ["#{LOCAL_SPACE}/file"], Dir.glob("#{LOCAL_SPACE}/*")
   end
 
