@@ -9,6 +9,8 @@ require File.dirname(__FILE__) + '/../lib/conspire'
 
 REMOTE_SPACE = File.dirname(__FILE__) + '/remote-space'
 LOCAL_SPACE = File.dirname(__FILE__) + '/local-space'
+FileUtils.rm_rf(REMOTE_SPACE)
+FileUtils.rm_rf(LOCAL_SPACE)
 
 module Conspire
   def self.reset!
@@ -52,6 +54,7 @@ class TestConspire < Test::Unit::TestCase
   end
 
   def test_sync
+    # getting random unreproducible failings here
     Conspire.conspirators << Conspire::Conspirator.new('localhost.', '7458')
     Conspire.sync_all
     assert_equal ["#{LOCAL_SPACE}/file"], Dir.glob("#{LOCAL_SPACE}/*")

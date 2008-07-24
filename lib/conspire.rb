@@ -9,7 +9,7 @@ require 'conspire/gitjour_exts'
 require 'conspire/conspirator'
 
 module Conspire
-  VERSION = '0.0.1'
+  VERSION = '0.1.0'
   DEFAULTS = { :port => 7456, :name => 'conspiracy', :sync_interval => 0.5 }
   HOSTNAME = `hostname`.chomp
 
