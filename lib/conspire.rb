@@ -21,7 +21,11 @@ module Conspire
   def start(options = {})
     @options = DEFAULT_OPTIONS.merge options
     puts "Starting with #{@options.inspect}" if ENV['DEBUG']
-    Gitjour::Application.start @options[:path], @options[:name], @options[:port]
+    Gitjour::Application.init @options[:path]
+    @thread = Thread.new do
+      Gitjour::Application.serve(@options[:path], @options[:name],
+                                 @options[:port])
+    end
   end
 
   # This should be called periodically
@@ -38,7 +42,7 @@ module Conspire
   def sync_all
     @conspirators.map do |c|
       begin
-        c.sync(File.dirname(@options[:path]))
+        c.sync(@options[:path])
       rescue => e
         puts "Dropping #{c} because #{e.message}"
         @conspirators.delete c

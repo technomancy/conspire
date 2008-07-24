@@ -3,12 +3,12 @@ module Conspire
     attr_accessor :last_synced, :host, :port, :name
 
     def initialize(host, port, name = SERVICE_NAME)
-      @host, @port, @name = host, port || DEFAULT_OPTIONS[:port], name
+      @host, @port, @name = host[0 .. -2], port || DEFAULT_OPTIONS[:port], name
     end
 
     def sync(path)
       # TODO: suppress output
-      puts "Rebasing from #{url}" if ENV['DEBUG']
+      puts "cd #{path} && git pull --rebase #{url}" if ENV['DEBUG']
       system "cd #{path} && git pull --rebase #{url}" or
         raise "Could not rebase from #{url}"
 
