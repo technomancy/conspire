@@ -2,15 +2,19 @@ module Conspire
   class Conspirator
     attr_accessor :last_synced, :host, :port, :name
 
-    def initialize(host, port, name = SERVICE_NAME)
-      @host, @port, @name = host[0 .. -2], port || DEFAULT_OPTIONS[:port], name
+    def initialize(host, port, name = DEFAULTS[:name])
+      @host, @port, @name = host[0 .. -2], port || DEFAULTS[:port], name
     end
 
     def sync(path)
-      # TODO: suppress output
-      puts "cd #{path} && git pull --rebase #{url}" if ENV['DEBUG']
-      system "cd #{path} && git pull --rebase #{url}" or
-        raise "Could not rebase from #{url}"
+      if ENV['DEBUG']
+        puts "cd #{path} && git pull --rebase #{url}"
+        system "cd #{path} && git pull --rebase #{url}" or
+          raise "Could not rebase from #{url}"
+      else
+        system "cd #{path} && git pull --rebase #{url} > /dev/null" or
+          raise "Could not rebase from #{url}"
+      end
 
       @last_synced = Time.now
     end

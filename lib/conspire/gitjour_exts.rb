@@ -1,13 +1,14 @@
 module Gitjour
   class Application
     class << self
+      public :discover, :serve
+
       def init(path)
-        FileUtils.mkdir_p(path) unless File.exist? path
-        `cd #{path}; git init` if ! File.exist? path + '/.git'
+        abort "Repository already exists: #{path}" if File.exist? path + '/.git'
+        `mkdir -p #{path} && cd #{path} && git init`
         `touch #{path}/.git/git-daemon-export-ok`
       end
 
-      public :discover, :serve
       def puts(*args); end unless ENV['DEBUG']
     end
   end

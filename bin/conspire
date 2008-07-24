@@ -1,10 +1,16 @@
 #!/usr/bin/env ruby
 
 require File.dirname(__FILE__) + '/../lib/conspire'
+require 'clip'
 
-# TODO: real option parsing
-Conspire.start(:port => ARGV.shift || Conspire::DEFAULT_OPTIONS[:port],
-               :name => ARGV.shift || Conspire::DEFAULT_OPTIONS[:name])
+options = Clip do |c|
+  c.optional 'p', 'port', :default => Conspire::DEFAULTS[:port]
+  c.optional('s', 'sync_interval', :desc => 'Time between synchronizing repos',
+             :default => Conspire::DEFAULTS[:sync_interval])
+  c.optional('n', 'name', :desc => "Session name; must include 'conspiracy'",
+             :default => Conspire::DEFAULTS[:name])
+end
 
+Conspire.start ARGV.first, options
 Thread.new { Conspire.discover_loop }
 Conspire.sync_loop

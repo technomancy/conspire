@@ -3,36 +3,35 @@ require 'set'
 require 'fileutils'
 
 require 'rubygems'
-require 'gitjour'
+require 'gitjour' # TODO: can we get rid of the avahi compatibility warning?
 
 require 'conspire/gitjour_exts'
 require 'conspire/conspirator'
 
 module Conspire
   VERSION = '0.0.1'
-  DEFAULT_OPTIONS = { :port => 7456, :path => Dir.pwd, :name => 'conspiracy',
-    :discover_interval => 10, :sync_interval => 1 }
+  DEFAULTS = { :port => 7456, :name => 'conspiracy', :sync_interval => 0.5 }
 
   @conspirators = Set.new
 
   module_function
 
   # Begin a conspiracy session
-  def start(options = {})
-    @options = DEFAULT_OPTIONS.merge options
+  def start(path, options)
+    @options = options
+    @path = path
     puts "Starting with #{@options.inspect}" if ENV['DEBUG']
-    Gitjour::Application.init @options[:path]
+    Gitjour::Application.init @path
     @thread = Thread.new do
-      Gitjour::Application.serve(@options[:path], @options[:name],
-                                 @options[:port])
+      Gitjour::Application.serve(@path, @options.name, @options.port)
     end
   end
 
   # This should be called periodically
-  def discover(wait = @options[:discover_interval])
+  def discover(wait = 5)
     Gitjour::Application.discover(wait) do |service|
       next if service.name !~ /conspiracy/ # TODO: better way of choosing names
-      next if service.port.to_i == @options[:port].to_i # TODO: and local
+      next if service.port.to_i == @options.port.to_i # TODO: and local
 
       # No-op if we've got it already, since @conspirators is a Set
       @conspirators << Conspirator.new(service.host, service.port, service.name)
@@ -42,7 +41,7 @@ module Conspire
   def sync_all
     @conspirators.map do |c|
       begin
-        c.sync(@options[:path])
+        c.sync(@path)
       rescue => e
         puts "Dropping #{c} because #{e.message}"
         @conspirators.delete c
@@ -51,7 +50,7 @@ module Conspire
   end
 
   def sync_loop
-    loop { sync_all and sleep @options[:sync_interval] }
+    loop { sync_all and sleep @options.sync_interval }
   end
 
   def discover_loop

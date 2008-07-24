@@ -37,6 +37,8 @@
 ;; session and then switch buffers, since the timer is not yet buffer
 ;; local. Watch out!
 
+;; Launch conspire executable.
+
 ;;; Code:
 
 (defvar conspire-interval 0.33
@@ -59,6 +61,5 @@
     (shell-command (format "git add %s && git commit -m \"conspire\""
                            buffer-file-name)))
   (revert-buffer nil t))
-
 
 ;;; conspire.el ends here

@@ -5,22 +5,37 @@
 Conspire is a real-time collaborative editing platform using Git as a
 transport layer.
 
-You don't actually use Conspire directly; you would invoke it through
-an editor interface. See lib/conspire/support to see which editors are
-supported.
-
 == Installation
 
 You'll need git 1.5.5 or higher.
 
 TODO: instructions for avahi-compatible dnssd from source.
+TODO: make latest gitjour available as a gem
 
-* sudo gem install net-mdns
+* sudo gem install dnssd newgem
+* git clone git://github.com/chad/gitjour.git; cd gitjour; rake install_gem
 * sudo gem install technomancy-conspire --source=http://gems.github.com
 
 Once a proper release has happened:
 
 * sudo gem install conspire
+
+== Usage
+
+Conspiracy sessions operate around repositories rather than single
+files like other collaborative editors. So launch +conspire+ with a
+directory as its first argument to have it initialize a repository in
+that directory. From there you should open up your editor and invoke
+conspire from there.
+
+TODO: you still have to manually <tt>git add</tt> files at first.
+
+See lib/conspire/support to see which editors are supported.
+
+When using Avahi for your ZeroConf implementation, you will not be
+able to do anything unless you have an active network connection. So
+disconnected conspirancy sessions on the same machine are not possible
+without bringing up an ad-hoc network.
 
 == Editor Support
 
@@ -31,3 +46,5 @@ Editors must support:
 * Refreshing internal copies
 
 Edits should not be allowed in between these steps.
+
+Editors should be able to support launching the +conspire+ executable.

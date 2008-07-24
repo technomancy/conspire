@@ -4,6 +4,7 @@ begin
 rescue LoadError; end
 
 require 'test/unit'
+require 'ostruct'
 require File.dirname(__FILE__) + '/../lib/conspire'
 
 REMOTE_SPACE = File.dirname(__FILE__) + '/remote-space'
@@ -18,15 +19,15 @@ end
 
 class TestConspire < Test::Unit::TestCase
   def setup
-    FileUtils.mkdir_p(REMOTE_SPACE)
+    Gitjour::Application.init(REMOTE_SPACE)
     File.open(REMOTE_SPACE + '/file', 'w') { |f| f.puts "hello world." }
-    `cd #{REMOTE_SPACE}; git init; git add file; git commit -m "init"`
+    `cd #{REMOTE_SPACE}; git add file; git commit -m "init"`
 
     @remote_thread = Thread.new do
-      Gitjour::Application.serve(REMOTE_SPACE, Conspire::SERVICE_NAME, 7458)
+      Gitjour::Application.serve(REMOTE_SPACE, 'conspiracy-remote-test', 7458)
     end
 
-    Conspire.start(:port => 7457, :path => LOCAL_SPACE)
+    Conspire.start(LOCAL_SPACE, OpenStruct.new(:port => 7457))
   end
 
   def teardown
@@ -43,16 +44,16 @@ class TestConspire < Test::Unit::TestCase
   end
 
   def test_sync
-    Conspire.conspirators << Conspire::Conspirator.new('dynabook', '7458')
+    Conspire.conspirators << Conspire::Conspirator.new('localhost.', '7458')
     Conspire.sync_all
     assert_equal ["#{LOCAL_SPACE}/file"], Dir.glob("#{LOCAL_SPACE}/*")
   end
 
   def test_conspirator_set
-    Conspire.conspirators << Conspire::Conspirator.new('dynabook', '7458')
-    Conspire.conspirators << Conspire::Conspirator.new('dynabook', '7458')
-    Conspire.conspirators << Conspire::Conspirator.new('dynabook', '7458')
-    Conspire.conspirators << Conspire::Conspirator.new('dynabook', '7458')
+    Conspire.conspirators << Conspire::Conspirator.new('dynabook.', '7458')
+    Conspire.conspirators << Conspire::Conspirator.new('dynabook.', '7458')
+    Conspire.conspirators << Conspire::Conspirator.new('dynabook.', '7458')
+    Conspire.conspirators << Conspire::Conspirator.new('dynabook.', '7458')
     assert_equal 1, Conspire.conspirators.size
   end
 end

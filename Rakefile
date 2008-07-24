@@ -7,9 +7,14 @@ require './lib/conspire.rb'
 Hoe.new('conspire', Conspire::VERSION) do |p|
   p.developer('Phil Hagelberg', 'technomancy@gmail.com')
 
-  # Get these from github:
-  # TODO: currently have to build manually; no gem built
-  p.extra_deps << 'chad-gitjour'
+  p.extra_deps << ['gitjour', '6.3.0']
+  p.extra_deps << 'clip'
+end
+
+desc "Code statistics"
+task :stats do
+  require 'code_statistics'
+  CodeStatistics.new(['lib'], ['Unit tests', 'test']).to_s
 end
 
 # vim: syntax=Ruby
