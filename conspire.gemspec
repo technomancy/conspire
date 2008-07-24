@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.default_executable = %q{conspire}
   s.email = ["technomancy@gmail.com"]
   s.executables = ["conspire"]
-  s.extra_rdoc_files = ["History.txt", "Manifest.txt", "README.txt"]
-  s.files = ["COPYING", "History.txt", "Manifest.txt", "README.txt", "Rakefile", "bin/conspire", "lib/conspire.rb", "lib/conspire/conspirator.rb", "lib/conspire/gitjour_exts.rb", "lib/conspire/support/conspire.el", "test/test_conspire.rb"]
+  s.extra_rdoc_files = ["History.txt", "Manifest.txt"]
+  s.files = ["COPYING", "History.txt", "Manifest.txt", "README.rdoc", "Rakefile", "bin/conspire", "lib/conspire.rb", "lib/conspire/conspirator.rb", "lib/conspire/gitjour_exts.rb", "lib/conspire/support/conspire.el", "test/perf.rb", "test/test_conspire.rb"]
   s.has_rdoc = true
   s.homepage = %q{http://conspire.rubyforge.org}
   s.rdoc_options = ["--main", "README.txt"]
