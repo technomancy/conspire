@@ -28,8 +28,7 @@ conspire from there on the files with which you wish to collaborate.
 
 See lib/conspire/support to see which editors are supported. In Emacs,
 install conspire.el and then visit the file you want to edit and
-pressing M-x conspire-mode, though this is still very rough and should
-be done in its own Emacs instance.
+pressing M-x conspire-mode.
 
 Repository history is cleared in between conspiracy sessions.
 
@@ -45,8 +44,6 @@ Set the DEBUG environment variable to get more information on the console.
 == Bugs
 
 * Conflict resolution remains entirely unhandled.
-
-* The Emacs frontend currently requires its own Emacs instance.
 
 * When using Avahi for your ZeroConf implementation, you will not be
   able to do anything unless you have an active network connection. So
