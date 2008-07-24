@@ -8,17 +8,20 @@ module Conspire
 
     def sync(path)
       # TODO: suppress output
-      `cd #{path} && git pull --rebase #{url}`
+      puts "Rebasing from #{url}" if ENV['DEBUG']
+      system "cd #{path} && git pull --rebase #{url}" or
+        raise "Could not rebase from #{url}"
+
       @last_synced = Time.now
     end
 
-    def url; "git://#{@host}.local:#{@port}/" end
+    def url; "git://#{@host}:#{@port}/" end
 
     alias_method :to_s, :url
     alias_method :inspect, :url
 
-    def eql?(other)
-      self.to_s == other.to_s
-    end
+    # For set equality
+    def eql?(other); self.url == other.url end
+    def hash; url.hash end
   end
 end

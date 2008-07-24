@@ -47,4 +47,12 @@ class TestConspire < Test::Unit::TestCase
     Conspire.sync_all
     assert_equal ["#{LOCAL_SPACE}/file"], Dir.glob("#{LOCAL_SPACE}/*")
   end
+
+  def test_conspirator_set
+    Conspire.conspirators << Conspire::Conspirator.new('dynabook', '7458')
+    Conspire.conspirators << Conspire::Conspirator.new('dynabook', '7458')
+    Conspire.conspirators << Conspire::Conspirator.new('dynabook', '7458')
+    Conspire.conspirators << Conspire::Conspirator.new('dynabook', '7458')
+    assert_equal 1, Conspire.conspirators.size
+  end
 end

@@ -10,10 +10,8 @@ require 'conspire/conspirator'
 
 module Conspire
   VERSION = '0.0.1'
-  DEFAULT_OPTIONS = { :port => 7456, :path => Dir.pwd }
-  SERVICE_NAME = 'conspire'
-  DISCOVER_INTERVAL = 10
-  SYNC_INTERVAL = 1
+  DEFAULT_OPTIONS = { :port => 7456, :path => Dir.pwd, :name => 'conspiracy',
+    :discover_interval => 10, :sync_interval => 1 }
 
   @conspirators = Set.new
 
@@ -21,34 +19,35 @@ module Conspire
 
   # Begin a conspiracy session
   def start(options = {})
-    @options = DEFAULT_OPTIONS.merge(options)
-
-    FileUtils.mkdir_p(@options[:path]) unless File.exist? @options[:path]
-    `cd #{@options[:path]}; git init` if ! File.exist? @options[:path] + '/.git'
-
-    @thread = Thread.new do
-      Gitjour::Application.serve(@options[:path], SERVICE_NAME, @options[:port])
-    end
-    at_exit { @thread && @thread.join }
+    @options = DEFAULT_OPTIONS.merge options
+    puts "Starting with #{@options.inspect}" if ENV['DEBUG']
+    Gitjour::Application.start @options[:path], @options[:name], @options[:port]
   end
 
   # This should be called periodically
-  def discover(wait = DISCOVER_INTERVAL)
+  def discover(wait = @options[:discover_interval])
     Gitjour::Application.discover(wait) do |service|
-      next if service.name !~ Regexp.new(SERVICE_NAME)
+      next if service.name !~ /conspiracy/ # TODO: better way of choosing names
       next if service.port.to_i == @options[:port].to_i # TODO: and local
+
       # No-op if we've got it already, since @conspirators is a Set
       @conspirators << Conspirator.new(service.host, service.port, service.name)
     end
   end
 
   def sync_all
-    # TODO: drop conspirators if they shut down their repo
-    @conspirators.map{ |s| s.sync(File.dirname(@options[:path])) }
+    @conspirators.map do |c|
+      begin
+        c.sync(File.dirname(@options[:path]))
+      rescue => e
+        puts "Dropping #{c} because #{e.message}"
+        @conspirators.delete c
+      end
+    end
   end
 
   def sync_loop
-    loop { sync_all and sleep SYNC_INTERVAL }
+    loop { sync_all and sleep @options[:sync_interval] }
   end
 
   def discover_loop

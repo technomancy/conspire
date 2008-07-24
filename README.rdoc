@@ -11,6 +11,10 @@ supported.
 
 == Installation
 
+You'll need git 1.5.5 or higher.
+
+TODO: instructions for avahi-compatible dnssd from source.
+
 * sudo gem install net-mdns
 * sudo gem install technomancy-conspire --source=http://gems.github.com
 
