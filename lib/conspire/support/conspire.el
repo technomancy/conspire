@@ -3,8 +3,8 @@
 ;; Copyright (C) 2008 Phil Hagelberg
 
 ;; Author: Phil Hagelberg <technomancy@gmail.com>
-;; URL: http://www.emacswiki.org/cgi-bin/wiki/Conspire
-;; Version: 0.1
+;; URL: http://conspire.rubyforge.org
+;; Version: 0.2
 ;; Created: 2008-07-22
 ;; Keywords: collaboration
 
@@ -39,11 +39,8 @@
 
 ;;; TODO:
 
-;; In its current state, it's very dangerous to start a conspire
-;; session and then switch buffers, since the timer is not yet buffer
-;; local. Watch out!
-
 ;; Automatically launch conspire executable.
+;; Color lines based on which conspirator wrote them?
 
 ;;; Code:
 
@@ -53,20 +50,26 @@
 (defvar conspire-timer nil
   "A timer to activate conspire synchronizing.")
 
+(make-variable-buffer-local 'conspire-mode)
+
 ;;;###autoload
 (defun conspire-mode ()
   "Activate conspire-mode for real-time collaborative editing."
   (interactive)
-  (set (make-local-variable 'conspire-timer)
-       (run-with-idle-timer conspire-interval
-                            :repeat 'conspire-sync-buffer)))
+  (setq conspire-mode t)
+  (setq conspire-timer
+       (run-with-idle-timer conspire-interval :repeat 'conspire-sync-buffer)))
+                            
 
 (defun conspire-sync-buffer ()
   "Synchronize buffer with Conspire repository."
-  (when (buffer-modified-p)
-    (save-buffer)
-    (shell-command (format "git add %s && git commit -m \"conspire\""
-                           buffer-file-name)))
-  (revert-buffer nil t))
+  (when conspire-mode
+    (when (buffer-modified-p)
+      (save-buffer)
+      (shell-command (format "git add %s && git commit -m \"conspire\""
+                             buffer-file-name)))
+    (revert-buffer nil t)
+    ;; revert resets local variables; heh
+    (setq conspire-mode t)))
 
 ;;; conspire.el ends here
