@@ -28,9 +28,9 @@ directory as its first argument to have it initialize a repository in
 that directory. From there you should open up your editor and invoke
 conspire from there.
 
-TODO: you still have to manually <tt>git add</tt> files at first.
-
 See lib/conspire/support to see which editors are supported.
+
+Repository history is cleared in between conspiracy sessions.
 
 When using Avahi for your ZeroConf implementation, you will not be
 able to do anything unless you have an active network connection. So

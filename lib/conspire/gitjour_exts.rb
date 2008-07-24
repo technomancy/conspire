@@ -5,6 +5,7 @@ module Gitjour
 
       def init(path)
         abort "Repository already exists: #{path}" if File.exist? path + '/.git'
+        at_exit { FileUtils.rm_rf path + '/.git' }
         `mkdir -p #{path} && cd #{path} && git init`
         `touch #{path}/.git/git-daemon-export-ok`
       end
