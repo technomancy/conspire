@@ -30,15 +30,16 @@ class TestConspire < Test::Unit::TestCase
     end
 
     Conspire.start(LOCAL_SPACE, OpenStruct.new(:port => 7457,
-                                               :name => 'conspiracy'))
+                                               :name => 'conspiracy',
+                                               :sync_interval => 0.5))
   end
 
   def teardown
     @remote_thread.kill
     `killall git-daemon` # workaround until gitjour handles this correctly
     Conspire.reset!
-    FileUtils.rm_rf(REMOTE_SPACE)
-    FileUtils.rm_rf(LOCAL_SPACE)
+    FileUtils.rm_rf(REMOTE_SPACE) unless ENV['KEEP']
+    FileUtils.rm_rf(LOCAL_SPACE) unless ENV['KEEP']
   end
 
   def test_start
