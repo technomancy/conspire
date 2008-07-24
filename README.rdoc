@@ -26,9 +26,12 @@ Conspiracy sessions operate around repositories rather than single
 files like other collaborative editors. So launch +conspire+ with a
 directory as its first argument to have it initialize a repository in
 that directory. From there you should open up your editor and invoke
-conspire from there.
+conspire from there on the files with which you wish to collaborate.
 
-See lib/conspire/support to see which editors are supported.
+See lib/conspire/support to see which editors are supported. In Emacs,
+this involves visiting the file you want to edit and pressing M-x
+conspire-mode, though this is still very rough and should be done in
+its own instance.
 
 Repository history is cleared in between conspiracy sessions.
 
