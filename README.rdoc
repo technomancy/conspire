@@ -33,12 +33,26 @@ be done in its own Emacs instance.
 
 Repository history is cleared in between conspiracy sessions.
 
-== Troubleshooting
+For testing purposes, you can run two or more conspiracies on the same
+machine; you just have to specify an alternate port and name for the
+others. Names should always include the string "conspiracy" to
+distinguish them from other gitjour repositories.
 
-When using Avahi for your ZeroConf implementation, you will not be
-able to do anything unless you have an active network connection. So
-disconnected conspirancy sessions are not possible without bringing up
-an ad-hoc network to trick Avahi into activating.
+  $ conspire repo -p 7457 -n conspiracy2
+
+Set the DEBUG environment variable to get more information on the console.
+
+== Bugs
+
+* Conflict resolution remains entirely unhandled.
+
+* The Emacs frontend currently requires its own Emacs instance.
+
+* When using Avahi for your ZeroConf implementation, you will not be
+  able to do anything unless you have an active network connection. So
+  disconnected conspirancy sessions are not possible without bringing
+  up an ad-hoc network to trick Avahi into activating. You'll also see
+  a big fat warning, which should be ignored.
 
 == Editor Support
 
@@ -46,11 +60,12 @@ Editors must support:
 
 * Saving on an interval
 * Committing files to the repo
-* Refreshing internal copies
+* Refreshing internal buffers
 
 Edits should not be allowed in between these steps.
 
-Editors may be able to support launching the +conspire+ executable.
+Editors may be able to support launching the +conspire+ executable for
+added convenience.
 
 That's about all there is to it. If your favourite editor is not
 supported, please fork and add support for it; it's really not a

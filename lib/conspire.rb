@@ -21,7 +21,6 @@ module Conspire
   def start(path, options)
     @options = options
     @path = path
-    puts "Starting with #{@options.inspect}" if ENV['DEBUG']
     Gitjour::Application.init @path
     @thread = Thread.new do
       Gitjour::Application.serve(@path, @options.name, @options.port)
@@ -58,9 +57,7 @@ module Conspire
   def discover_loop
     loop do
       Conspire.discover
-      p Conspire.conspirators if ENV['DEBUG']
+      puts Conspire.conspirators.map{ |c| c.to_s } if ENV['DEBUG']
     end
   end
-
-  def conspirators; @conspirators end
 end

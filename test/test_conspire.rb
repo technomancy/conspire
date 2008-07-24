@@ -15,6 +15,8 @@ module Conspire
     @conspirators = []
     @thread && @thread.kill
   end
+
+  def self.conspirators; @conspirators end
 end
 
 class TestConspire < Test::Unit::TestCase
@@ -38,6 +40,10 @@ class TestConspire < Test::Unit::TestCase
     FileUtils.rm_rf(LOCAL_SPACE)
   end
 
+  def test_start
+    assert File.exist?(LOCAL_SPACE + '/.git')
+  end
+
   def test_discover
     Conspire.discover
     assert_equal [7458], Conspire.conspirators.map{ |c| c.port }
@@ -50,8 +56,6 @@ class TestConspire < Test::Unit::TestCase
   end
 
   def test_conspirator_set
-    Conspire.conspirators << Conspire::Conspirator.new('dynabook.', '7458')
-    Conspire.conspirators << Conspire::Conspirator.new('dynabook.', '7458')
     Conspire.conspirators << Conspire::Conspirator.new('dynabook.', '7458')
     Conspire.conspirators << Conspire::Conspirator.new('dynabook.', '7458')
     assert_equal 1, Conspire.conspirators.size
