@@ -10,7 +10,7 @@ Hoe.new('conspire', Conspire::VERSION) do |p|
   p.summary = 'Conspire is a real-time collaborative editing platform using Git as a transport layer.'
   p.url = 'http://conspire.rubyforge.org'
 
-  p.extra_deps << ['gitjour', '6.3.0']
+  p.extra_deps << ['technomancy-gitjour', '6.3.0']
   p.extra_deps << 'clip'
 end
 

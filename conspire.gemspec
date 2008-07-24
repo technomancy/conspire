@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.extra_rdoc_files = ["History.txt", "Manifest.txt", "README.txt"]
   s.files = ["COPYING", "History.txt", "Manifest.txt", "README.txt", "Rakefile", "bin/conspire", "lib/conspire.rb", "lib/conspire/conspirator.rb", "lib/conspire/gitjour_exts.rb", "lib/conspire/support/conspire.el", "test/test_conspire.rb"]
   s.has_rdoc = true
-  s.homepage = %q{http://bus-scheme.rubyforge.org}
+  s.homepage = %q{http://conspire.rubyforge.org}
   s.rdoc_options = ["--main", "README.txt"]
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{conspire}
@@ -24,16 +24,16 @@ Gem::Specification.new do |s|
     s.specification_version = 2
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<gitjour>, ["= 6.3.0"])
+      s.add_runtime_dependency(%q<technomancy-gitjour>, ["= 6.3.0"])
       s.add_runtime_dependency(%q<clip>, [">= 0"])
       s.add_development_dependency(%q<hoe>, [">= 1.7.0"])
     else
-      s.add_dependency(%q<gitjour>, ["= 6.3.0"])
+      s.add_dependency(%q<technomancy-gitjour>, ["= 6.3.0"])
       s.add_dependency(%q<clip>, [">= 0"])
       s.add_dependency(%q<hoe>, [">= 1.7.0"])
     end
   else
-    s.add_dependency(%q<gitjour>, ["= 6.3.0"])
+    s.add_dependency(%q<technomancy-gitjour>, ["= 6.3.0"])
     s.add_dependency(%q<clip>, [">= 0"])
     s.add_dependency(%q<hoe>, [">= 1.7.0"])
   end
