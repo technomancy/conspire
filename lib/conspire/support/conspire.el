@@ -39,14 +39,17 @@
 
 ;;; TODO:
 
-;; Automatically launch conspire executable.
+;; For some reason conspire-sync-buffer only runs on cursor movement
 ;; Don't bother with *Async Shell Command* output buffer
 ;; Color lines based on which conspirator wrote them?
 
 ;;; Code:
 
-(defvar conspire-interval 0.25
+(defcustom conspire-interval 0.25
   "Number of seconds to wait before syncing with conspire.")
+
+(defcustom conspire-arguments ""
+  "Arguments to pass the `conspire' executable, like port, name, etc.")
 
 (defvar conspire-timer nil
   "A timer to activate conspire synchronizing.")
@@ -70,8 +73,10 @@ session will be started."
   :lighter "-conspire"
   (unless (file-exists-p (concat (file-name-directory buffer-file-name)
                                  ".conspire"))
-    (shell-command (format "conspire %s >& /dev/null &"
-                           (file-name-directory buffer-file-name))))
+    (save-window-excursion
+      (shell-command (format "conspire %s %s >& /dev/null &"
+                             (file-name-directory buffer-file-name)
+                             conspire-arguments))))
   (setq conspire-timer
         (or conspire-timer
             (run-with-idle-timer conspire-interval :repeat

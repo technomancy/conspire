@@ -10,7 +10,8 @@ require 'conspire/conspirator'
 
 module Conspire
   VERSION = '0.1.0'
-  DEFAULTS = { :port => 7456, :name => 'conspiracy', :sync_interval => 0.5 }
+  # TODO: play with optimal intervals; perhaps auto-adjust based on latency?
+  DEFAULTS = { :port => 7456, :name => 'conspiracy', :sync_interval => 0.25 }
   HOSTNAME = `hostname`.chomp # TODO: is there a better way?
 
   @conspirators = Set.new
