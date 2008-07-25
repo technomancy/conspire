@@ -11,7 +11,7 @@ require 'conspire/conspirator'
 module Conspire
   VERSION = '0.1.0'
   DEFAULTS = { :port => 7456, :name => 'conspiracy', :sync_interval => 0.5 }
-  HOSTNAME = `hostname`.chomp
+  HOSTNAME = `hostname`.chomp # TODO: is there a better way?
 
   @conspirators = Set.new
 
@@ -22,6 +22,7 @@ module Conspire
     @options = options
     @path = path
     Gitjour::Application.init @path
+    FileUtils.touch(@path + '/.git/conspire')
     @thread = Thread.new do
       Gitjour::Application.serve(@path, @options.name, @options.port)
     end

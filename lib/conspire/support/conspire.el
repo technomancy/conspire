@@ -40,26 +40,16 @@
 ;;; TODO:
 
 ;; Automatically launch conspire executable.
+;; Don't bother with *Async Shell Command* output buffer
 ;; Color lines based on which conspirator wrote them?
 
 ;;; Code:
 
-(defvar conspire-interval 0.33
+(defvar conspire-interval 0.25
   "Number of seconds to wait before syncing with conspire.")
 
 (defvar conspire-timer nil
   "A timer to activate conspire synchronizing.")
-
-(make-variable-buffer-local 'conspire-mode)
-
-;;;###autoload
-(defun conspire-mode ()
-  "Activate conspire-mode for real-time collaborative editing."
-  (interactive)
-  (setq conspire-mode t)
-  (setq conspire-timer
-       (run-with-idle-timer conspire-interval :repeat 'conspire-sync-buffer)))
-                            
 
 (defun conspire-sync-buffer ()
   "Synchronize buffer with Conspire repository."
@@ -68,8 +58,24 @@
       (save-buffer)
       (shell-command (format "git add %s && git commit -m \"conspire\""
                              buffer-file-name)))
-    (revert-buffer nil t)
-    ;; revert resets local variables; heh
+    (revert-buffer nil t) ;; revert resets local variables; heh
     (setq conspire-mode t)))
 
+;;;###autoload
+(define-minor-mode conspire-mode
+  "Toggle conspire-mode for real-time collaborative editing.
+
+If the current buffer isn't part of a conspiracy session, a new
+session will be started."
+  :lighter "-conspire"
+  (unless (file-exists-p (concat (file-name-directory buffer-file-name)
+                                 ".git/conspire"))
+    (shell-command (format "conspire %s >& /dev/null &"
+                           (file-name-directory buffer-file-name))))
+  (setq conspire-timer
+        (or conspire-timer
+            (run-with-idle-timer conspire-interval :repeat
+                                 'conspire-sync-buffer))))
+
+(provide 'conspire)
 ;;; conspire.el ends here
