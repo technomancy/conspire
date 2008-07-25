@@ -25,12 +25,12 @@ class TestConspire < Test::Unit::TestCase
   def setup
     Gitjour::Application.init(REMOTE_SPACE)
     File.open(REMOTE_SPACE + '/file', 'w') { |f| f.puts "hello world." }
-    `cd #{REMOTE_SPACE}; git add file; git commit -m "init"`
+    `cd #{REMOTE_SPACE}; git add file; git commit -m "conspire"`
 
     @remote_thread = Thread.new do
       Gitjour::Application.serve(REMOTE_SPACE, 'conspiracy-remote-test', 7458)
     end
-
+    @remote = Conspire::Conspirator.new('localhost.', '7458')
     Conspire.start(LOCAL_SPACE, OpenStruct.new(:port => 7457,
                                                :name => 'conspiracy',
                                                :sync_interval => 0.5))
@@ -55,7 +55,7 @@ class TestConspire < Test::Unit::TestCase
 
   def test_sync
     # getting random unreproducible failings here
-    Conspire.conspirators << Conspire::Conspirator.new('localhost.', '7458')
+    Conspire.conspirators << @remote
     Conspire.sync_all
     assert_equal ["#{LOCAL_SPACE}/file"], Dir.glob("#{LOCAL_SPACE}/*")
   end
@@ -64,5 +64,16 @@ class TestConspire < Test::Unit::TestCase
     Conspire.conspirators << Conspire::Conspirator.new('dynabook.', '7458')
     Conspire.conspirators << Conspire::Conspirator.new('dynabook.', '7458')
     assert_equal 1, Conspire.conspirators.size
+  end
+
+  def test_conflicts
+    @remote.sync(LOCAL_SPACE)
+    assert File.exist?(LOCAL_SPACE + '/file'), "Sync did not pull in file"
+    assert_equal 'hello world.\n', File.read(LOCAL_SPACE + '/file')
+
+    File.open("#{LOCAL_SPACE}/file", 'w') { |f| f.puts "hello conspirators!" }
+    `cd #{LOCAL_SPACE}; git add file; git commit -m "conspire"`
+    @remote.sync(LOCAL_SPACE)
+    assert_equal 'hello conspirators!\n', File.read(LOCAL_SPACE + '/file')
   end
 end
