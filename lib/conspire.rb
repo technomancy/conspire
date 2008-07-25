@@ -22,7 +22,8 @@ module Conspire
     @options = options
     @path = path
     Gitjour::Application.init @path
-    FileUtils.touch(@path + '/.git/conspire')
+    FileUtils.touch(@path + '/.conspire')
+    `cd #{@path}; git add .conspire; git commit -m "initial"`
     @thread = Thread.new do
       Gitjour::Application.serve(@path, @options.name, @options.port)
     end

@@ -69,7 +69,7 @@ If the current buffer isn't part of a conspiracy session, a new
 session will be started."
   :lighter "-conspire"
   (unless (file-exists-p (concat (file-name-directory buffer-file-name)
-                                 ".git/conspire"))
+                                 ".conspire"))
     (shell-command (format "conspire %s >& /dev/null &"
                            (file-name-directory buffer-file-name))))
   (setq conspire-timer
