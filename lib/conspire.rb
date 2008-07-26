@@ -8,7 +8,7 @@ require File.dirname(__FILE__) + '/conspire/gitjour_exts'
 require File.dirname(__FILE__) + '/conspire/conspirator'
 
 module Conspire
-  VERSION = '0.1.0'
+  VERSION = '0.1.1'
   # TODO: play with optimal intervals; perhaps auto-adjust based on latency?
   DEFAULTS = { :port => 7456, :name => 'conspiracy', :sync_interval => 0.25 }
   HOSTNAME = `hostname`.chomp # TODO: is there a better way?

@@ -1,6 +1,7 @@
 = conspire
-  by Phil Hagelberg (C) 2008
-  http://conspire.rubyforge.org
+
+(C) 2008 Phil Hagelberg
+http://github.com/technomancy/conspire
 
 Conspire is a real-time collaborative editing platform using Git as a
 transport layer.
@@ -21,16 +22,16 @@ Once prerequisites are met:
 == Usage
 
 Conspiracy sessions operate around repositories rather than single
-files like other collaborative editors. So launch +conspire+ with a
-directory as its first argument to have it initialize a repository in
-that directory. From there you should open up your editor and invoke
-conspire from there on the files with which you wish to collaborate.
-
-See lib/conspire/support to see which editors are supported. In Emacs,
-install conspire.el and then visit the file you want to edit and
-pressing M-x conspire-mode.
+files like other collaborative editors. See lib/conspire/support to
+see which editors are supported. In Emacs, first install conspire.el,
+then visit the file you want to edit and invoke M-x conspire-mode.
 
 Repository history is cleared in between conspiracy sessions.
+
+You can manually use conspire if you want to try it out without an
+editor. Just launch +conspire+ with a directory as its only argument,
+and it will initialize a new git repository in there and launch a
+conspiracy session.
 
 For testing purposes, you can run two or more conspiracies on the same
 machine; you just have to specify an alternate port and name for the
@@ -45,13 +46,19 @@ Set the DEBUG environment variable to get more information on the console.
 
 * Conflict resolution remains entirely unhandled.
 
+* Emacs is the only supported editor; see below.
+
 * When using Avahi for your ZeroConf implementation, you will not be
   able to do anything unless you have an active network connection. So
   disconnected conspirancy sessions are not possible without bringing
   up an ad-hoc network to trick Avahi into activating. You'll also see
   a big fat warning, which should be ignored.
 
-== Editor Support
+== Contributing
+
+Patches are welcome via github or email. Adding support for more
+editors would probably be the most useful contributions, though
+anything is appreciated.
 
 Editors must support:
 
@@ -59,11 +66,6 @@ Editors must support:
 * Committing files to the repo
 * Refreshing internal buffers
 
-Edits should not be allowed in between these steps.
-
-Editors may be able to support launching the +conspire+ executable for
-added convenience.
-
-That's about all there is to it. If your favourite editor is not
-supported, please fork and add support for it; it's really not a
-difficult task.
+Edits should not be allowed in between these steps. Editors may be
+able to support launching the +conspire+ executable for added
+convenience.

@@ -11,7 +11,12 @@ options = Clip do |c|
              :default => Conspire::DEFAULTS[:name])
 end
 
-abort options.to_s if !options.valid?
+# TODO: show usage message on --help
+if !options.valid?
+  puts "Conspire is a git-based collaboration platform."
+  puts "  You generally interact use it via an editor; see README for details."
+  abort options.to_s
+end
 
 Conspire.start ARGV.first, options
 Thread.new { Conspire.discover_loop }

@@ -1,17 +1,17 @@
 Gem::Specification.new do |s|
   s.name = %q{conspire}
-  s.version = "0.1.0"
+  s.version = "0.1.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Phil Hagelberg"]
-  s.date = %q{2008-07-24}
+  s.date = %q{2008-07-25}
   s.default_executable = %q{conspire}
   s.email = ["technomancy@gmail.com"]
   s.executables = ["conspire"]
   s.extra_rdoc_files = ["History.txt", "Manifest.txt"]
-  s.files = ["COPYING", "History.txt", "Manifest.txt", "README.rdoc", "Rakefile", "bin/conspire", "lib/conspire.rb", "lib/conspire/conspirator.rb", "lib/conspire/gitjour_exts.rb", "lib/conspire/support/conspire.el", "test/perf.rb", "test/test_conspire.rb"]
+  s.files = ["COPYING", "History.txt", "Manifest.txt", "README.rdoc", "Rakefile", "bin/conspire", "conspire.gemspec", "lib/conspire.rb", "lib/conspire/conspirator.rb", "lib/conspire/gitjour_exts.rb", "lib/conspire/support/conspire.el", "test/perf.rb", "test/test_conspire.rb"]
   s.has_rdoc = true
-  s.homepage = %q{http://conspire.rubyforge.org}
+  s.homepage = %q{http://github.com/technomancy/conspire}
   s.rdoc_options = ["--main", "README.txt"]
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{conspire}

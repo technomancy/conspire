@@ -3,7 +3,7 @@
 ;; Copyright (C) 2008 Phil Hagelberg
 
 ;; Author: Phil Hagelberg <technomancy@gmail.com>
-;; URL: http://conspire.rubyforge.org
+;; URL: http://github.com/technomancy/conspire
 ;; Version: 0.2
 ;; Created: 2008-07-22
 ;; Keywords: collaboration
@@ -37,12 +37,10 @@
 ;;
 ;;   (autoload 'conspire-mode "conspire" "Collaborative editing" t)
 
-;;; TODO:
-
-;; For some reason conspire-sync-buffer only runs on cursor movement
-;; Gracefully kill shell process so it can clean up
-;; Don't bother with *Async Shell Command* output buffer
-;; Color lines based on which conspirator wrote them?
+;; TODO: For some reason conspire-sync-buffer only runs on cursor movement
+;; TODO: Gracefully kill shell process so it can clean up
+;; TODO: Don't bother with *Async Shell Command* output buffer
+;; TODO: Color lines based on which conspirator wrote them?
 
 ;;; Code:
 
