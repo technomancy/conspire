@@ -4,6 +4,7 @@ Manifest.txt
 README.rdoc
 Rakefile
 bin/conspire
+conspire.gemspec
 lib/conspire.rb
 lib/conspire/conspirator.rb
 lib/conspire/gitjour_exts.rb

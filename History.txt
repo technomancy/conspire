@@ -1,6 +1,8 @@
-=== 0.0.1 / 2008-07-22
+=== 0.1.0 / 2008-07-24
 
-* 1 major enhancement
+* Nearly usable! Sorta-works!
 
-  * Birthday!
+=== 0.0.1 / 2008-07-23
+
+* Birthday!
 

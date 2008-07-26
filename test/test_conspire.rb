@@ -30,7 +30,7 @@ class TestConspire < Test::Unit::TestCase
     @remote_thread = Thread.new do
       Gitjour::Application.serve(REMOTE_SPACE, 'conspiracy-remote-test', 7458)
     end
-    @remote = Conspire::Conspirator.new('localhost.', '7458')
+    @remote = Conspire::Conspirator.new('localhost.', '7458', 'conspiracy')
     Conspire.start(LOCAL_SPACE, OpenStruct.new(:port => 7457,
                                                :name => 'conspiracy',
                                                :sync_interval => 0.5))
@@ -61,8 +61,8 @@ class TestConspire < Test::Unit::TestCase
   end
 
   def test_conspirator_set
-    Conspire.conspirators << Conspire::Conspirator.new('dynabook.', '7458')
-    Conspire.conspirators << Conspire::Conspirator.new('dynabook.', '7458')
+    Conspire.conspirators << Conspire::Conspirator.new('dynabook.', '7458', 'conspiracy')
+    Conspire.conspirators << Conspire::Conspirator.new('dynabook.', '7458', 'conspiracy')
     assert_equal 1, Conspire.conspirators.size
   end
 

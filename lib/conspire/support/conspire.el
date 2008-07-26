@@ -40,6 +40,7 @@
 ;;; TODO:
 
 ;; For some reason conspire-sync-buffer only runs on cursor movement
+;; Gracefully kill shell process so it can clean up
 ;; Don't bother with *Async Shell Command* output buffer
 ;; Color lines based on which conspirator wrote them?
 

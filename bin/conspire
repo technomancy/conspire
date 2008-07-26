@@ -11,6 +11,8 @@ options = Clip do |c|
              :default => Conspire::DEFAULTS[:name])
 end
 
+abort options.to_s if !options.valid?
+
 Conspire.start ARGV.first, options
 Thread.new { Conspire.discover_loop }
 Conspire.sync_loop

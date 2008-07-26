@@ -1,12 +1,11 @@
-$LOAD_PATH << File.dirname(__FILE__)
 require 'set'
 require 'fileutils'
 
 require 'rubygems'
 require 'gitjour' # TODO: can we get rid of the avahi compatibility warning?
 
-require 'conspire/gitjour_exts'
-require 'conspire/conspirator'
+require File.dirname(__FILE__) + '/conspire/gitjour_exts'
+require File.dirname(__FILE__) + '/conspire/conspirator'
 
 module Conspire
   VERSION = '0.1.0'
@@ -20,11 +19,10 @@ module Conspire
 
   # Begin a conspiracy session
   def start(path, options)
-    @options = options
-    @path = path
+    @path, @options = path, options
+
     Gitjour::Application.init @path
-    FileUtils.touch(@path + '/.conspire')
-    `cd #{@path}; git add .conspire; git commit -m "initial"`
+
     @thread = Thread.new do
       Gitjour::Application.serve(@path, @options.name, @options.port)
     end
@@ -42,6 +40,7 @@ module Conspire
     end
   end
 
+  # Sync with all conspirators, dropping the problematic ones
   def sync_all
     @conspirators.map do |c|
       begin
@@ -58,9 +57,6 @@ module Conspire
   end
 
   def discover_loop
-    loop do
-      Conspire.discover
-      puts Conspire.conspirators.map{ |c| c.to_s } if ENV['DEBUG']
-    end
+    loop { discover and (p @conspirators if ENV['DEBUG']) }
   end
 end
