@@ -62,7 +62,8 @@
       (shell-command (format "git add %s && git commit -m \"conspire\""
                              buffer-file-name)))
     (revert-buffer nil t) ;; revert resets local variables; heh
-    (setq conspire-mode t)))
+    (cancel-timer conspire-timer)
+    (conspire-mode t)))
 
 ;;;###autoload
 (define-minor-mode conspire-mode
