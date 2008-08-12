@@ -1,10 +1,10 @@
 Gem::Specification.new do |s|
   s.name = %q{conspire}
-  s.version = "0.1.1"
+  s.version = "0.1.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Phil Hagelberg"]
-  s.date = %q{2008-07-25}
+  s.date = %q{2008-08-12}
   s.default_executable = %q{conspire}
   s.email = ["technomancy@gmail.com"]
   s.executables = ["conspire"]
@@ -25,16 +25,16 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<technomancy-gitjour>, ["= 6.3.0"])
-      s.add_runtime_dependency(%q<clip>, [">= 0"])
+      s.add_runtime_dependency(%q<alexvollmer-clip>, [">= 0"])
       s.add_development_dependency(%q<hoe>, [">= 1.7.0"])
     else
       s.add_dependency(%q<technomancy-gitjour>, ["= 6.3.0"])
-      s.add_dependency(%q<clip>, [">= 0"])
+      s.add_dependency(%q<alexvollmer-clip>, [">= 0"])
       s.add_dependency(%q<hoe>, [">= 1.7.0"])
     end
   else
     s.add_dependency(%q<technomancy-gitjour>, ["= 6.3.0"])
-    s.add_dependency(%q<clip>, [">= 0"])
+    s.add_dependency(%q<alexvollmer-clip>, [">= 0"])
     s.add_dependency(%q<hoe>, [">= 1.7.0"])
   end
 end

@@ -1,6 +1,6 @@
 = conspire
 
-(C) 2008 Phil Hagelberg
+(c) 2008 Phil Hagelberg
 http://github.com/technomancy/conspire
 
 Conspire is a real-time collaborative editing platform using Git as a
@@ -31,7 +31,8 @@ Repository history is cleared in between conspiracy sessions.
 You can manually use conspire if you want to try it out without an
 editor. Just launch +conspire+ with a directory as its only argument,
 and it will initialize a new git repository in there and launch a
-conspiracy session.
+conspiracy session. You will have to manually "git add" new files you
+want to introduce to the session.
 
 For testing purposes, you can run two or more conspiracies on the same
 machine; you just have to specify an alternate port and name for the

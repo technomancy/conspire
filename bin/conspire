@@ -9,6 +9,7 @@ options = Clip do |c|
              :default => Conspire::DEFAULTS[:sync_interval])
   c.optional('n', 'name', :desc => "Session name; must include 'conspiracy'",
              :default => Conspire::DEFAULTS[:name])
+  c.flag('v', 'version', :desc => 'Print version number and exit')
 end
 
 # TODO: show usage message on --help
@@ -16,6 +17,9 @@ if !options.valid?
   puts "Conspire is a git-based collaboration platform."
   puts "  You generally interact use it via an editor; see README for details."
   abort options.to_s
+elsif options.version?
+  puts "conspire #{Conspire::VERSION}"
+  exit 0
 end
 
 Conspire.start ARGV.first, options

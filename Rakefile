@@ -13,7 +13,7 @@ Hoe.new('conspire', Conspire::VERSION) do |p|
 
   # TODO: release on rubyforge once all our required dependency versions make it to rubyforge
   p.extra_deps << ['technomancy-gitjour', '6.3.0']
-  p.extra_deps << 'clip'
+  p.extra_deps << 'alexvollmer-clip'
 end
 
 # vim: syntax=Ruby
